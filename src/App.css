@@ -40,12 +40,13 @@
 /* 添加任务区域 */
 .add-task {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .add-task input {
-  flex: 1;
+  flex: 1 1 200px;
   padding: 1rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
@@ -76,6 +77,59 @@
 
 .add-task button:active {
   transform: translateY(0);
+}
+
+/* 图片上传相关样式 */
+.image-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upload-button {
+  padding: 1rem 1.5rem;
+  background: #2ed573;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-button:hover {
+  background: #10ac84;
+}
+
+/* 图片预览区域 */
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.image-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #e0e0e0;
+}
+
+.remove-image-button {
+  padding: 0.5rem 1rem;
+  background: #ff6348;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.3s ease;
+}
+
+.remove-image-button:hover {
+  background: #ff4757;
 }
 
 /* 任务列表 */
@@ -112,7 +166,7 @@
 }
 
 /* 完成状态的任务 */
-.task-list li.completed span {
+.task-list li.completed .task-content span {
   text-decoration: line-through;
   color: #888;
 }
@@ -125,11 +179,29 @@
   cursor: pointer;
 }
 
-/* 任务文本 */
-.task-list span {
+/* 任务内容区域 */
+.task-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 任务文本 */
+.task-content span {
   font-size: 1rem;
   color: #333;
+  word-break: break-word;
+}
+
+/* 任务图片 */
+.task-image {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  margin-top: 0.5rem;
 }
 
 /* 删除按钮 */
