@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import './App.css';
 
 function App() {
-  // 状态管理：任务列表、输入框内容和当前选择的图片
+  // 状态管理：任务列表、输入框内容和当前选择的图片1
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
