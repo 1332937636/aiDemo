@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import 'antd/dist/reset.css';
 import './App.css';
+import TaskTable from './TaskTable';
 
 function App() {
   // 状态管理：任务列表和输入框内容
@@ -65,19 +67,11 @@ function App() {
           {tasks.length === 0 ? (
             <p className="empty-message">暂无待办事项，请添加新任务</p>
           ) : (
-            <ul>
-              {tasks.map(task => (
-                <li key={task.id} className={task.completed ? 'completed' : ''}>
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => toggleComplete(task.id)}
-                  />
-                  <span>{task.text}</span>
-                  <button onClick={() => deleteTask(task.id)}>删除</button>
-                </li>
-              ))}
-            </ul>
+            <TaskTable
+              tasks={tasks}
+              onToggleComplete={toggleComplete}
+              onDeleteTask={deleteTask}
+            />
           )}
         </div>
       </div>
