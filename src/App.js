@@ -8,7 +8,9 @@ function App() {
   const [deadline, setDeadline] = useState('');
   const [importance, setImportance] = useState('medium');
   const [timeConsumption, setTimeConsumption] = useState('medium');
-  const [dependency, setDependency] = useState('');
+  if(importance){
+   const [dependency, setDependency] = useState('');
+  }
 
   // 计算优先级分数
   const calculatePriorityScore = (task) => {
@@ -65,7 +67,9 @@ function App() {
     }
     
     // 4. 依赖关系：如果依赖的任务未完成，则加1
-    let dependencyValue = 0;
+   
+  };
+ let dependencyValue = 0;
     if (task.dependency) {
       const dependentTask = tasks.find(t => t.id === parseInt(task.dependency));
       if (dependentTask && !dependentTask.completed) {
@@ -76,8 +80,6 @@ function App() {
     // 计算优先级分数
     const priorityScore = urgency * 0.4 + importanceValue * 0.3 + timeValue * 0.2 + dependencyValue * 0.1;
     return priorityScore;
-  };
-
   // 添加任务
   const addTask = () => {
     if (inputValue.trim() !== '') {
@@ -89,7 +91,9 @@ function App() {
         importance: importance,
         timeConsumption: timeConsumption,
         dependency: dependency
-      };
+ 
+  };
+     };
       setTasks([...tasks, newTask]);
       setInputValue('');
       setDeadline('');
@@ -97,8 +101,6 @@ function App() {
       setTimeConsumption('medium');
       setDependency('');
     }
-  };
-
   // 删除任务
   const deleteTask = (id) => {
     setTasks(tasks.filter(task => task.id !== id));
