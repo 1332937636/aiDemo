@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import './App.css';
 
 function App() {
@@ -8,12 +8,10 @@ function App() {
   const [deadline, setDeadline] = useState('');
   const [importance, setImportance] = useState('medium');
   const [timeConsumption, setTimeConsumption] = useState('medium');
-  if(importance){
-   const [dependency, setDependency] = useState('');
-  }
+  const [dependency, setDependency] = useState('');
 
   // 计算优先级分数
-  const calculatePriorityScore = (task) => {
+  const calculatePriorityScore = useCallback((task) => {
     // 1. 紧急度：截止时间远近（按小时计算）
     let urgency = 0;
     if (task.deadline) {
@@ -67,9 +65,7 @@ function App() {
     }
     
     // 4. 依赖关系：如果依赖的任务未完成，则加1
-   
-  };
- let dependencyValue = 0;
+    let dependencyValue = 0;
     if (task.dependency) {
       const dependentTask = tasks.find(t => t.id === parseInt(task.dependency));
       if (dependentTask && !dependentTask.completed) {
@@ -80,8 +76,9 @@ function App() {
     // 计算优先级分数
     const priorityScore = urgency * 0.4 + importanceValue * 0.3 + timeValue * 0.2 + dependencyValue * 0.1;
     return priorityScore;
+  }, [tasks]);
   // 添加任务
-  const addTask = () => {
+  const addTask = useCallback(() => {
     if (inputValue.trim() !== '') {
       const newTask = {
         id: Date.now(),
@@ -91,9 +88,7 @@ function App() {
         importance: importance,
         timeConsumption: timeConsumption,
         dependency: dependency
- 
-  };
-     };
+      };
       setTasks([...tasks, newTask]);
       setInputValue('');
       setDeadline('');
@@ -101,34 +96,35 @@ function App() {
       setTimeConsumption('medium');
       setDependency('');
     }
+  }, [inputValue, deadline, importance, timeConsumption, dependency, tasks]);
   // 删除任务
-  const deleteTask = (id) => {
+  const deleteTask = useCallback((id) => {
     setTasks(tasks.filter(task => task.id !== id));
-  };
+  }, [tasks]);
 
   // 切换任务完成状态
-  const toggleComplete = (id) => {
+  const toggleComplete = useCallback((id) => {
     setTasks(tasks.map(task => 
       task.id === id ? { ...task, completed: !task.completed } : task
     ));
-  };
+  }, [tasks]);
 
   // 处理输入框变化
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     setInputValue(e.target.value);
-  };
+  }, []);
 
   // 处理回车键添加任务
-  const handleKeyPress = (e) => {
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') {
       addTask();
     }
-  };
+  }, [addTask]);
 
   // 按优先级排序任务
-  const sortedTasks = [...tasks].sort((a, b) => {
+  const sortedTasks = useMemo(() => [...tasks].sort((a, b) => {
     return calculatePriorityScore(b) - calculatePriorityScore(a);
-  });
+  }), [tasks, calculatePriorityScore]);
 
   // 获取优先级等级
   const getPriorityLevel = (score) => {
